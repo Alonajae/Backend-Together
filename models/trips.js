@@ -44,11 +44,9 @@ const tripSchema = new mongoose.Schema({
                 longitude: Number,
             }
         },
-        time:{
-            start: Date,
-            end: Date,
-        }
+        start: Date,
     },
+    end: Date,
     chat: [{
         user: mongoose.Schema.Types.ObjectId,
         message: String,
