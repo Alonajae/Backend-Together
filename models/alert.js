@@ -11,6 +11,6 @@ const alertSchema = new mongoose.Schema({
     description: String,
 });
 
-const alertModel = mongoose.model('alerts', alertSchema);
+const Alert = mongoose.model('alerts', alertSchema);
 
-module.exports = alertModel;
+module.exports = Alert;

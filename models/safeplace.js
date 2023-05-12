@@ -10,6 +10,6 @@ const safeplaceSchema = new mongoose.Schema({
     phone: String,
 });
 
-const safeplaceModel = mongoose.model('safeplaces', safeplaceSchema);
+const SafePlace = mongoose.model('safeplaces', safeplaceSchema);
 
-module.exports = safeplaceModel;
+module.exports = SafePlace;

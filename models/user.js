@@ -13,6 +13,6 @@ const userSchema = new mongoose.Schema({
     validationVideo: String,
 });
 
-const userModel = mongoose.model('users', userSchema);
+const User = mongoose.model('users', userSchema);
 
-module.exports = userModel;
+module.exports = User;
