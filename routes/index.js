@@ -26,7 +26,7 @@ router.post('/signup', function (req, res, next) {
           // Create a object to send back to the client, if the password is correct
           const infos = {
             firstname: data.firstname,
-            lastName: data.lastName,
+            lastname: data.lastname,
             inscriptionDate: data.inscriptionDate,
             genre: data.genre,
             profilePicture: data.profilePicture,
