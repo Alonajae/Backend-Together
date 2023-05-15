@@ -11,8 +11,7 @@ router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-/* Singnin page. */
-
+/* Singnin */
 router.post('/signin', function (req, res, next) {
   // Get the user from the request
   const user = req.body;
@@ -45,8 +44,7 @@ router.post('/signin', function (req, res, next) {
     })
 });
 
-/* Signup page. */
-
+/* Signup */
 router.post('/signup', function (req, res, next) {
   // Get the user from the request
   const user = req.body;
@@ -99,5 +97,17 @@ router.post('/signup', function (req, res, next) {
     })
 });
 
+/* Verify if mail exist in database */
+
+router.post('/verify', function (req, res, next) {
+  User.findOne({ email: req.body.email })
+    .then((data) => {
+      if (!data) {
+        res.json({ result: true });
+      } else {
+        res.json({ result: false });
+      }
+    })
+});
 
 module.exports = router;
