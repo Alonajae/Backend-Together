@@ -3,6 +3,7 @@ var router = express.Router();
 var User = require('../models/users');
 const uid2 = require('uid2');
 const bcrypt = require('bcrypt');
+const moment = require('moment');
 
 /* GET home page. */
 
@@ -27,7 +28,7 @@ router.post('/signin', function (req, res, next) {
           const infos = {
             firstname: data.firstname,
             lastname: data.lastname,
-            inscriptionDate: data.inscriptionDate,
+            inscriptionDate: moment(data.inscriptionDate).format('L'),
             genre: data.genre,
             profilePicture: data.profilePicture,
             visibleOnMap: data.visibleOnMap,
