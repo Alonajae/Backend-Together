@@ -5,19 +5,25 @@ const uid2 = require('uid2');
 const bcrypt = require('bcrypt');
 
 /* GET home page. */
+
 router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
 /* Login page. */
+
 router.post('/login', function (req, res, next) {
+  // Get the user from the request
   const user = req.body;
   User.findOne({ email: user.email })
     .then((data) => {
       if (!data) {
+        // If the user doesn't exist
         res.json({ result: false, error: 'User not found' });
       } else {
+        // If the user exists
         if (bcrypt.compareSync(user.password, data.password)) {
+          // Create a object to send back to the client, if the password is correct
           const infos = {
             firstName: data.firstName,
             lastName: data.lastName,
@@ -31,6 +37,7 @@ router.post('/login', function (req, res, next) {
           }
           res.json({ result: true, user: infos});
         } else {
+          // If the password is wrong
           res.json({ result: false, error: 'Wrong password' });
         }
       }
@@ -40,9 +47,11 @@ router.post('/login', function (req, res, next) {
 /* Register page. */
 
 router.post('/register', function (req, res, next) {
+  // Get the user from the request
   const user = req.body;
   User.findOne({ email: user.email })
     .then((data) => {
+      // If the user doesn't exist
       if (!data) {
         const hash = bcrypt.hashSync(user.password, 10);
         const token = uid2(32);
@@ -52,6 +61,7 @@ router.post('/register', function (req, res, next) {
         } else {
           urgencyContact = '17';
         }
+        // Create a new user
         const newUser = new User({
           email: user.email,
           password: hash,
@@ -68,6 +78,7 @@ router.post('/register', function (req, res, next) {
           urgencyContact: urgencyContact,
         });
         newUser.save()
+        // Create a object to send back to the client
         const infos = {
           firstName: user.firstName,
           lastName: user.lastName,
@@ -81,6 +92,7 @@ router.post('/register', function (req, res, next) {
         }
         res.json({ result: true, user: infos });
       } else {
+        // If the user already exists
         res.json({ result: false, error: 'User already exists' });
       }
     })
