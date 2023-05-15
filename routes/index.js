@@ -18,7 +18,18 @@ router.post('/login', function (req, res, next) {
         res.json({ result: false, error: 'User not found' });
       } else {
         if (bcrypt.compareSync(user.password, data.password)) {
-          res.json({ result: true, user: { email: user.email, token: token, firstName: data.firstName, lastName: data.lastName, inscriptionDate: data.inscriptionDate, genre: data.genre, profilePicture: data.profilePicture } });
+          const infos = {
+            firstName: data.firstName,
+            lastName: data.lastName,
+            inscriptionDate: data.inscriptionDate,
+            genre: data.genre,
+            profilePicture: data.profilePicture,
+            visibleOnMap: data.visibleOnMap,
+            urgencyContact: data.urgencyContact,
+            email: user.email,
+            token: data.token,
+          }
+          res.json({ result: true, user: infos});
         } else {
           res.json({ result: false, error: 'Wrong password' });
         }
@@ -35,6 +46,12 @@ router.post('/register', function (req, res, next) {
       if (!data) {
         const hash = bcrypt.hashSync(user.password, 10);
         const token = uid2(32);
+        let urgencyContact;
+        if (user.urgencyContact) {
+          urgencyContact = user.urgencyContact;
+        } else {
+          urgencyContact = '17';
+        }
         const newUser = new User({
           email: user.email,
           password: hash,
@@ -47,9 +64,22 @@ router.post('/register', function (req, res, next) {
           photoId: user.photoId,
           profilePicture: user.profilePicture,
           validationVideo: user.validationVideo,
+          visibleOnMap: false,
+          urgencyContact: urgencyContact,
         });
         newUser.save()
-        res.json({ result: true, user: { email: user.email, token: token, firstName: user.firstName, lastName: user.lastName, inscriptionDate: newUser.inscriptionDate, genre: user.genre, profilePicture: user.profilePicture } });
+        const infos = {
+          firstName: user.firstName,
+          lastName: user.lastName,
+          inscriptionDate: newUser.inscriptionDate,
+          genre: user.genre,
+          profilePicture: user.profilePicture,
+          visibleOnMap: newUser.visibleOnMap,
+          urgencyContact: urgencyContact,
+          email: user.email,
+          token: token,
+        }
+        res.json({ result: true, user: infos });
       } else {
         res.json({ result: false, error: 'User already exists' });
       }

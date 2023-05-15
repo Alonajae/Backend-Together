@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
+    token: String,
     firstName: String,
     lastName: String,
     email: String,
@@ -11,6 +12,7 @@ const userSchema = new mongoose.Schema({
     photoId: String,
     profilePicture: String,
     validationVideo: String,
+    visibleOnMap: Boolean,
 });
 
 const User = mongoose.model('users', userSchema);
