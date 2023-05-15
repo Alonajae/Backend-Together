@@ -17,8 +17,8 @@ router.post('/login', function (req, res, next) {
       if (!data) {
         res.json({ result: false, error: 'User not found' });
       } else {
-        if (user.password === data.password) {
-          res.json({ result: true, user: data });
+        if (bcrypt.compareSync(user.password, data.password)) {
+          res.json({ result: true, user: { email: user.email, token: token, firstName: data.firstName, lastName: data.lastName, inscriptionDate: data.inscriptionDate, genre: data.genre, profilePicture: data.profilePicture } });
         } else {
           res.json({ result: false, error: 'Wrong password' });
         }
@@ -49,7 +49,7 @@ router.post('/register', function (req, res, next) {
           validationVideo: user.validationVideo,
         });
         newUser.save()
-        res.json({ result: true, user: {email: user.email, token: token, firstName: user.firstName, lastName: user.lastName, inscriptionDate: newUser.inscriptionDate, genre: user.genre, profilePicture: user.profilePicture} });
+        res.json({ result: true, user: { email: user.email, token: token, firstName: user.firstName, lastName: user.lastName, inscriptionDate: newUser.inscriptionDate, genre: user.genre, profilePicture: user.profilePicture } });
       } else {
         res.json({ result: false, error: 'User already exists' });
       }
