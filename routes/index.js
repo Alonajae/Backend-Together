@@ -3,6 +3,7 @@ var router = express.Router();
 var User = require('../models/users');
 const uid2 = require('uid2');
 const bcrypt = require('bcrypt');
+const moment = require('moment');
 
 /* GET home page. */
 
@@ -10,9 +11,8 @@ router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-/* Singnup page. */
-
-router.post('/signup', function (req, res, next) {
+/* Singnin */
+router.post('/signin', function (req, res, next) {
   // Get the user from the request
   const user = req.body;
   User.findOne({ email: user.email })
@@ -27,7 +27,7 @@ router.post('/signup', function (req, res, next) {
           const infos = {
             firstname: data.firstname,
             lastname: data.lastname,
-            inscriptionDate: data.inscriptionDate,
+            inscriptionDate: moment(data.inscriptionDate).format('L'),
             genre: data.genre,
             profilePicture: data.profilePicture,
             visibleOnMap: data.visibleOnMap,
@@ -44,9 +44,8 @@ router.post('/signup', function (req, res, next) {
     })
 });
 
-/* Signin page. */
-
-router.post('/signin', function (req, res, next) {
+/* Signup */
+router.post('/signup', function (req, res, next) {
   // Get the user from the request
   const user = req.body;
   User.findOne({ email: user.email })
@@ -98,5 +97,17 @@ router.post('/signin', function (req, res, next) {
     })
 });
 
+/* Verify if mail exist in database */
+
+router.post('/verify', function (req, res, next) {
+  User.findOne({ email: req.body.email })
+    .then((data) => {
+      if (!data) {
+        res.json({ result: true });
+      } else {
+        res.json({ result: false, message: 'Email already exists' });
+      }
+    })
+});
 
 module.exports = router;
