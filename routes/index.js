@@ -10,9 +10,9 @@ router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-/* Login page. */
+/* Singnup page. */
 
-router.post('/login', function (req, res, next) {
+router.post('/signup', function (req, res, next) {
   // Get the user from the request
   const user = req.body;
   User.findOne({ email: user.email })
@@ -44,9 +44,9 @@ router.post('/login', function (req, res, next) {
     })
 });
 
-/* Register page. */
+/* Signin page. */
 
-router.post('/register', function (req, res, next) {
+router.post('/signin', function (req, res, next) {
   // Get the user from the request
   const user = req.body;
   User.findOne({ email: user.email })
