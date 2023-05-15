@@ -25,7 +25,7 @@ router.post('/signup', function (req, res, next) {
         if (bcrypt.compareSync(user.password, data.password)) {
           // Create a object to send back to the client, if the password is correct
           const infos = {
-            firstName: data.firstName,
+            firstname: data.firstname,
             lastName: data.lastName,
             inscriptionDate: data.inscriptionDate,
             genre: data.genre,
@@ -66,8 +66,8 @@ router.post('/signin', function (req, res, next) {
           email: user.email,
           password: hash,
           token: token,
-          firstName: user.firstName,
-          lastName: user.lastName,
+          firstname: user.firstname,
+          lastname: user.lastname,
           inscriptionDate: new Date(),
           age: user.age,
           genre: user.genre,
@@ -80,8 +80,8 @@ router.post('/signin', function (req, res, next) {
         newUser.save()
         // Create a object to send back to the client
         const infos = {
-          firstName: user.firstName,
-          lastName: user.lastName,
+          firstname: user.firstname,
+          lastname: user.lastname,
           inscriptionDate: newUser.inscriptionDate,
           genre: user.genre,
           profilePicture: user.profilePicture,
