@@ -31,7 +31,7 @@ router.post('/signin', function (req, res, next) {
             genre: data.genre,
             profilePicture: data.profilePicture,
             visibleOnMap: data.visibleOnMap,
-            urgencyContact: data.urgencyContact,
+            emergencyContact: data.urgencyContact,
             email: user.email,
             token: data.token,
           }
@@ -54,11 +54,11 @@ router.post('/signup', function (req, res, next) {
       if (!data) {
         const hash = bcrypt.hashSync(user.password, 10);
         const token = uid2(32);
-        let urgencyContact;
-        if (user.urgencyContact) {
-          urgencyContact = user.urgencyContact;
+        let emergencyContact;
+        if (user.emergencyContact) {
+          emergencyContact = user.emergencyContact;
         } else {
-          urgencyContact = '17';
+          emergencyContact = '17';
         }
         // Create a new user
         const newUser = new User({
@@ -74,7 +74,7 @@ router.post('/signup', function (req, res, next) {
           profilePicture: user.profilePicture,
           validationVideo: user.validationVideo,
           visibleOnMap: false,
-          urgencyContact: urgencyContact,
+          emergencyContact: emergencyContact,
         });
         newUser.save()
         // Create a object to send back to the client
@@ -85,7 +85,7 @@ router.post('/signup', function (req, res, next) {
           genre: user.genre,
           profilePicture: user.profilePicture,
           visibleOnMap: newUser.visibleOnMap,
-          urgencyContact: urgencyContact,
+          emergencyContact: emergencyContact,
           email: user.email,
           token: token,
         }
