@@ -49,7 +49,7 @@ router.post('/register', function (req, res, next) {
           validationVideo: user.validationVideo,
         });
         newUser.save()
-        res.json({ result: true, user: newUser });
+        res.json({ result: true, user: {email: user.email, token: token, firstName: user.firstName, lastName: user.lastName, inscriptionDate: newUser.inscriptionDate, genre: user.genre, profilePicture: user.profilePicture} });
       } else {
         res.json({ result: false, error: 'User already exists' });
       }
