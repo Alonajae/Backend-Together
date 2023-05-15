@@ -105,7 +105,7 @@ router.post('/verify', function (req, res, next) {
       if (!data) {
         res.json({ result: true });
       } else {
-        res.json({ result: false });
+        res.json({ result: false, message: 'Email already exists' });
       }
     })
 });
