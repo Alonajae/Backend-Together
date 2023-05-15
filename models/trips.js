@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const tripSchema = new mongoose.Schema({
     user1: {
-        user: mongoose.Schema.Types.ObjectId,
+        user: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
         from: {
             coordinate: {
                 latitude: Number,
@@ -17,7 +17,7 @@ const tripSchema = new mongoose.Schema({
         },
     },
     user2: {
-        user: mongoose.Schema.Types.ObjectId,
+        user: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
         from: {
             coordinate: {
                 latitude: Number,
@@ -48,7 +48,7 @@ const tripSchema = new mongoose.Schema({
     },
     end: Date,
     chat: [{
-        user: mongoose.Schema.Types.ObjectId,
+        user: { type: mongoose.Schema.Types.ObjectId, ref: 'messages' },
         message: String,
         date: Date,
     }],

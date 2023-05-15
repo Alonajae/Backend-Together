@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const alertSchema = new mongoose.Schema({
-    user: mongoose.Schema.Types.ObjectId,
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
     coordinate: {
         latitude: Number,
         longitude: Number,
