@@ -9,7 +9,7 @@ const bcrypt = require('bcrypt');
 
 // Get all the trips of a user
 
-router.post('/trips/:token', function (req, res, next) {
+router.get('/trips/:token', function (req, res, next) {
     const token = req.params.token;
     User.findOne({ token: token })
         .then((data) => {
