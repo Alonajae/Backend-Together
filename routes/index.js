@@ -29,6 +29,7 @@ router.post('/signin', function (req, res, next) {
             lastname: data.lastname,
             inscriptionDate: moment(data.inscriptionDate).format('L'),
             genre: data.genre,
+            age: data.age,
             profilePicture: data.profilePicture,
             visibleOnMap: data.visibleOnMap,
             emergencyContact: data.urgencyContact,
@@ -81,7 +82,7 @@ router.post('/signup', function (req, res, next) {
         const infos = {
           firstname: user.firstname,
           lastname: user.lastname,
-          inscriptionDate: newUser.inscriptionDate,
+          inscriptionDate: moment(newUser.inscriptionDate).format('L'),
           genre: user.genre,
           age: user.age,
           profilePicture: user.profilePicture,
