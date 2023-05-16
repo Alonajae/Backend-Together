@@ -52,8 +52,9 @@ router.post('/infos/:token', function (req, res, next) {
     // Get the user from the request
     const token = req.params.token;
     const infos = req.body;
-    // Update the user
+    // Update the user in the database
     if (infos.email && infos.emergencyContact) {
+        // If the user wants to modify his email or his emergency contact
         User.findOneAndUpdate({ token: token }, { email: infos.email, emergencyContact: infos.emergencyContact })
             .then((data) => {
                 if (data) {
@@ -63,10 +64,13 @@ router.post('/infos/:token', function (req, res, next) {
                 }
             })
     } else if (infos.password) {
+        // If the user wants to modify his password
         User.findOne({ token: token })
             .then((data) => {
                 if (data) {
+                    // If the user exists
                     if (bcrypt.compareSync(infos.password, data.password)) {
+                        // If the password is correct
                         const hash = bcrypt.hashSync(infos.newPassword, 10);
                         User.findOneAndUpdate({ token: token }, { password: hash })
                             .then((data) => {
@@ -77,6 +81,7 @@ router.post('/infos/:token', function (req, res, next) {
                                 }
                             })
                     } else {
+                        // If the password is incorrect
                         res.json({ result: false, error: 'Wrong password' });
                     }
                 } else {
