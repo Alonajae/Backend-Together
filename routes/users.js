@@ -19,6 +19,28 @@ router.post('/trips/:token', function (req, res, next) {
         })
 })
 
+// Modify profile section of a user !!
+
+// Modify the profile picture of a user
+
+// Modify the emergency contact of a user
+
+// Modify the visibility on map of a user
+
+// Modify the password of a user
+
+// Delete a user
+
+// Get all the users
+
+// Get all the users visible on map (for the map) & close to the user
+
+// Modify the location of a user
+
+// Get all the messages of a user for a specific trip
+
+
+
 
 
 module.exports = router;
