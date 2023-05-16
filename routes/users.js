@@ -23,6 +23,24 @@ router.post('/trips/:token', function (req, res, next) {
         })
 })
 
+// Forgot password
+
+router.post('/forgot-password', function (req, res, next) {
+    // Get the email from the request
+    const email = req.body.email;
+    // Get the user from the database
+    User.findOne({ email: email })
+        .then((data) => {
+            if (data) {
+                // If the user exists
+                res.json({ result: true, token: data.token });
+            } else {
+                // If the user doesn't exist
+                res.json({ result: false, error: 'User not found' });
+            }
+        })
+})
+
 // Modify profile section of a user !!
 
 // Modify the profile picture of a user
