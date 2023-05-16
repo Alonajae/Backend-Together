@@ -83,6 +83,7 @@ router.post('/signup', function (req, res, next) {
           lastname: user.lastname,
           inscriptionDate: newUser.inscriptionDate,
           genre: user.genre,
+          age: user.age,
           profilePicture: user.profilePicture,
           visibleOnMap: newUser.visibleOnMap,
           emergencyContact: emergencyContact,
