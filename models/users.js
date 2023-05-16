@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema({
     profilePicture: String,
     validationVideo: String,
     visibleOnMap: Boolean,
+    emergencyContact: String,
 });
 
 const User = mongoose.model('users', userSchema);
