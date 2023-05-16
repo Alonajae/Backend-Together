@@ -26,17 +26,22 @@ router.post('/trips/:token', function (req, res, next) {
 
 // Modify the profile picture of a user
 router.post('/upload', async (req, res) => {
-    const photoPath = `./tmp/${uniqid()}.jpg`;
-    const resultMove = await req.files.photoFromFront.mv(photoPath);
-  
-    if (!resultMove) {
-      const resultCloudinary = await cloudinary.uploader.upload(photoPath);
-      res.json({ result: true, url: resultCloudinary.secure_url });
-    } else {
-      res.json({ result: false, error: resultMove });
+    try {
+        const photoPath = `./tmp/${uniqid()}.jpg`;
+        const resultMove = await req.files.photoFromFront.mv(photoPath);
+      
+        if (!resultMove) {
+          const resultCloudinary = await cloudinary.uploader.upload(photoPath);
+          res.json({ result: true, url: resultCloudinary.secure_url });
+        } else {
+          res.json({ result: false, error: resultMove });
+        }
+      
+        fs.unlinkSync(photoPath);
+    } catch (error) {
+        console.log(error);
+        res.json({ result: false, error: error.message });
     }
-  
-    fs.unlinkSync(photoPath);
   });
 
 // Modify the emergency contact of a user
