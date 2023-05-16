@@ -131,6 +131,19 @@ router.post('/visibleOnMap/:token', function (req, res, next) {
 
 // Delete a user
 
+router.delete('/delete/:token', function (req, res, next) {
+    const token = req.params.token;
+    User.findOneAndDelete({ token: token })
+        .then((data) => {
+            if (data) {
+                res.json({ result: true });
+            } else {
+                res.json({ result: false, error: 'Something went wrong' });
+            }
+        })
+})
+
+
 // Get all the users
 
 // Get all the users visible on map (for the map) & close to the user
