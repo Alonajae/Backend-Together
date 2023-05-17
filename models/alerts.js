@@ -1,11 +1,13 @@
 const mongoose = require('mongoose');
 
+const coordinateSchema = new mongoose.Schema({
+    latitude: Number,
+    longitude: Number,
+});
+
 const alertSchema = new mongoose.Schema({
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
-    coordinate: {
-        latitude: Number,
-        longitude: Number,
-    },
+    coordinate: coordinateSchema,
     date: Date,
     type: String,
     description: String,
