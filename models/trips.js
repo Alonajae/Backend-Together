@@ -1,58 +1,35 @@
 const mongoose = require('mongoose');
 
+const coordinateSchema = new mongoose.Schema({
+    latitude: Number,
+    longitude: Number,
+});
+
+const userSchema = new mongoose.Schema({
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
+    from: coordinateSchema,
+    to: coordinateSchema,
+});
+
+const chatSchema = new mongoose.Schema({
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'messages' },
+    message: String,
+    date: Date,
+});
+
+const sharedTripSchema = new mongoose.Schema({
+    from: coordinateSchema,
+    to: coordinateSchema,
+    start: Date,
+});
+
 const tripSchema = new mongoose.Schema({
     token: String,
-    user1: {
-        user: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
-        from: {
-            coordinate: {
-                latitude: Number,
-                longitude: Number,
-            }
-        },
-        to: {
-            coordinate: {
-                latitude: Number,
-                longitude: Number,
-            }
-        },
-    },
-    user2: {
-        user: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
-        from: {
-            coordinate: {
-                latitude: Number,
-                longitude: Number,
-            }
-        },
-        to: {
-            coordinate: {
-                latitude: Number,
-                longitude: Number,
-            }
-        },
-    },
-    sharedTrip: {
-        from: {
-            coordinate: {
-                latitude: Number,
-                longitude: Number,
-            },
-        },
-        to: {
-            coordinate: {
-                latitude: Number,
-                longitude: Number,
-            }
-        },
-        start: Date,
-    },
+    user1: userSchema,
+    user2: userSchema,
+    sharedTrip: sharedTripSchema,
     end: Date,
-    chat: [{
-        user: { type: mongoose.Schema.Types.ObjectId, ref: 'messages' },
-        message: String,
-        date: Date,
-    }],
+    chat: [chatSchema],
 });
 
 const Trip = mongoose.model('trips', tripSchema);
