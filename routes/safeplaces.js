@@ -24,8 +24,8 @@ router.post('/add', function (req, res, next) {
     const newSafePlace = new SafePlace({
         address: req.body.address,
         coordinate: {
-            latitude: req.body.latitude,
-            longitude: req.body.longitude,
+            latitude: req.body.coordinate.latitude,
+            longitude: req.body.coordinate.longitude,
         },
         hours: req.body.hours,
         phone: req.body.phone,
