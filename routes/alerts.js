@@ -21,8 +21,8 @@ router.post('/add', function (req, res, next) {
     const newAlert = new Alert({
         user: ObjectId(req.body.userId),
         coordinate: {
-            latitude: req.body.latitude,
-            longitude: req.body.longitude,
+            latitude: req.body.coordinate.latitude,
+            longitude: req.body.coordinate.longitude,
         },
         date: req.body.date,
         type: req.body.type,
