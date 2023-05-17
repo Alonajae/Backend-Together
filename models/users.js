@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
     password: String,
     inscriptionDate: Date,
     age: Number,
-    genre: String,
+    reasons: String,
     photoId: String,
     profilePicture: String,
     validationVideo: String,
