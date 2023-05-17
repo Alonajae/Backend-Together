@@ -1,12 +1,14 @@
 var express = require('express');
 var router = express.Router();
 const SafePlace = require('../models/safeplaces');
+const { log } = require('console');
 
 // Get all the safeplaces
 
 router.get('/', function (req, res, next) {
     SafePlace.find()
         .then((data) => {
+            console.log(data);
             res.json({ result: true, safeplaces: data });
         })
         .catch((error) => {
