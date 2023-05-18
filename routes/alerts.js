@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const User = require('../models/users');
 const Alert = require('../models/alerts');
 const moment = require('moment');
 
@@ -22,28 +23,48 @@ router.get('/', function (req, res, next) {
             res.json({ result: true, alerts: alertsInfos });
         })
         .catch((error) => {
-            res.json({ result: false, error: error.message });  
+            res.json({ result: false, error: error.message });
         });
 });
 
 
 // Add a new alert
 router.post('/add', function (req, res, next) {
-    const newAlert = new Alert({
-        user: ObjectId(req.body.userId),
-        coordinate: req.body.coordinate,
-        date: new Date(),
-        type: req.body.type,
-        description: req.body.description,
-    });
-    newAlert.save()
+    const alertInfo = req.body;
+    // Check if the user exists
+    User.findOne({ token: alertInfo.token })
         .then((data) => {
-            res.json({ result: true, alert: data });
+            if (!data) {
+                res.json({ result: false, error: 'User not found' });
+            } else {
+                // If the user exists, create a new alert
+                const newAlert = new Alert({
+                    user: ObjectId(data._id),
+                    coordinate: alertInfo.coordinate,
+                    date: new Date(),
+                    type: alertInfo.type,
+                    description: alertInfo.description,
+                });
+                newAlert.save()
+                    .then(() => {
+                        const response = {
+                            coordinate: newAlert.coordinate,
+                            date: moment(newAlert.date).format('MMMM Do YYYY, h:mm:ss a'),
+                            type: newAlert.type,
+                            description: newAlert.description,
+                            user: data.firstname,
+                        }
+                        res.json({ result: true, alert: response });
+                    })
+                    .catch((error) => {
+                        res.json({ result: false, error: error.message });
+                    });
+            }
         })
         .catch((error) => {
             res.json({ result: false, error: error.message });
         });
-})
+});
 
 // Delete an alert every 24 hours
 

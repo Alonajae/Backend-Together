@@ -14,7 +14,7 @@ router.post('/upload', async (req, res) => {
     // Get the photo from the request
     try {
         const photoPath = `./tmp/${uniqid()}.jpg`;
-        const resultMove = await req.files.photoFromFront.mv(photoPath);
+        const resultMove = await req.files.picture.mv(photoPath);
 
         if (!resultMove) {
             const resultCloudinary = await cloudinary.uploader.upload(photoPath);
@@ -37,7 +37,7 @@ router.post('/infos/:token', function (req, res, next) {
     const token = req.params.token;
     const infos = req.body;
     // Update the user in the database
-    if (infos.email && infos.emergencyContact) {
+    if (infos.email && infos.emergencyContact && !infos.password) {
         // If the user wants to modify his email or his emergency contact
         User.findOneAndUpdate({ token: token }, { email: infos.email, emergencyContact: infos.emergencyContact })
             .then((data) => {
@@ -135,7 +135,7 @@ router.get('/buddies', function (req, res, next) {
                         lastname: user.lastname,
                         email: user.email,
                         currentLocation: user.currentLocation,
-                        reason: user.reason,
+                        reasons: user.reasons,
                         age: user.age,
                     }
                 })

@@ -11,7 +11,8 @@ const safeplaceSchema = new mongoose.Schema({
     address: String,
     coordinate: coordinateSchema,
     hours: String,
-    phone: String, 
+    phone: String,
+    name: String, 
 });
 
 const SafePlace = mongoose.model('safeplaces', safeplaceSchema);
