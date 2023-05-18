@@ -29,12 +29,10 @@ router.get('/', function (req, res, next) {
 
 
 // Add a new alert
-router.post('/add/:token', function (req, res, next) {
-    const token = req.params.token;
+router.post('/add', function (req, res, next) {
     const alertInfo = req.body;
-
     // Check if the user exists
-    User.findOne({ token: token })
+    User.findOne({ token: alertInfo.token })
         .then((data) => {
             if (!data) {
                 res.json({ result: false, error: 'User not found' });
