@@ -29,6 +29,7 @@ router.post('/add', function (req, res, next) {
         },
         hours: req.body.hours,
         phone: req.body.phone,
+        name: req.body.name,
     });
     newSafePlace.save()
         .then((data) => {
