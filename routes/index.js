@@ -74,7 +74,6 @@ router.post('/signup', function (req, res, next) {
           reasons: user.reasons,
           photoId: user.photoId,
           profilePicture: user.profilePicture,
-          validationVideo: user.validationVideo,
           visibleOnMap: false,
           emergencyContact: emergencyContact,
           currentLocation: {
