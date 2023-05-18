@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-const ObjectId = require('mongoose').Types.ObjectId;
 const User = require('../models/users');
 const Alert = require('../models/alerts');
 const moment = require('moment');
@@ -40,7 +39,7 @@ router.post('/add', function (req, res, next) {
             } else {
                 // If the user exists, create a new alert
                 const newAlert = new Alert({
-                    user: ObjectId(data._id),
+                    user: data._id,
                     coordinate: alertInfo.coordinate,
                     date: new Date(),
                     type: alertInfo.type,
