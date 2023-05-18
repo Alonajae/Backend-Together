@@ -46,13 +46,15 @@ router.post('/add', function (req, res, next) {
                     description: alertInfo.description,
                 });
                 newAlert.save()
-                    .then(() => {
+                Alert.findOne({user: ObjectId(data._id)})
+                    .populate('user')
+                    .then((infos) => {
                         const response = {
-                            coordinate: newAlert.coordinate,
-                            date: moment(newAlert.date).format('MMMM Do YYYY, h:mm:ss a'),
-                            type: newAlert.type,
-                            description: newAlert.description,
-                            user: data.firstname,
+                            coordinate: infos.coordinate,
+                            date: moment(infos.date).format('MMMM Do YYYY, h:mm:ss a'),
+                            type: infos.type,
+                            description: infos.description,
+                            user: infos.user.firstname,
                         }
                         res.json({ result: true, alert: response });
                     })
