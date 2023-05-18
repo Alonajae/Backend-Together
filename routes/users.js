@@ -161,22 +161,6 @@ router.post('/location/:token', function (req, res, next) {
         })
 })
 
-// Get all the trips of a user
-
-router.get('/trips/:token', function (req, res, next) {
-    const token = req.params.token;
-    User.findOne({ token: token })
-        .then((data) => {
-            if (data) {
-                Trip.find({ user: data._id })
-                    .populate('user')
-                    .then((trips) => {
-                        res.json({ result: true, trips: trips });
-                    })
-            }
-        })
-})
-
 // Get all the messages of a user for a specific trip
 
 

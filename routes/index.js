@@ -78,8 +78,8 @@ router.post('/signup', function (req, res, next) {
           visibleOnMap: false,
           emergencyContact: emergencyContact,
           currentLocation: {
-            latitude: 0,
-            longitude: 0,
+            latitude: undefined,
+            longitude: undefined,
           },
         });
         newUser.save()
@@ -112,7 +112,7 @@ router.post('/verify', function (req, res, next) {
       if (!data) {
         res.json({ result: true });
       } else {
-        res.json({ result: false, message: 'Email already exists' });
+        res.json({ result: false, message: 'Email already taken' });
       }
     })
 });
