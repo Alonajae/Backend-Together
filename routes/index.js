@@ -28,15 +28,16 @@ router.post('/signin', function (req, res, next) {
             firstname: data.firstname,
             lastname: data.lastname,
             inscriptionDate: moment(data.inscriptionDate).format('L'),
-            reasons: data.reasons,
+            reason: data.reason,
             age: data.age,
             profilePicture: data.profilePicture,
             visibleOnMap: data.visibleOnMap,
-            emergencyContact: data.urgencyContact,
+            emergencyContact: data.emergencyContact,
             email: user.email,
             token: data.token,
+            currentLocation: data.currentLocation,
           }
-          res.json({ result: true, user: infos});
+          res.json({ result: true, user: infos });
         } else {
           // If the password is wrong
           res.json({ result: false, error: 'Wrong password' });
@@ -76,6 +77,10 @@ router.post('/signup', function (req, res, next) {
           validationVideo: user.validationVideo,
           visibleOnMap: false,
           emergencyContact: emergencyContact,
+          currentLocation: {
+            latitude: 0,
+            longitude: 0,
+          },
         });
         newUser.save()
         // Create a object to send back to the client
