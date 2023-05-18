@@ -7,40 +7,6 @@ const uniqid = require('uniqid');
 const fs = require('fs');
 const bcrypt = require('bcrypt');
 
-// Get all the trips of a user
-
-router.get('/trips/:token', function (req, res, next) {
-    const token = req.params.token;
-    User.findOne({ token: token })
-        .then((data) => {
-            if (data) {
-                Trip.find({ user: data._id })
-                    .populate('user')
-                    .then((trips) => {
-                        res.json({ result: true, trips: trips });
-                    })
-            }
-        })
-})
-
-// Forgot password
-
-router.post('/forgot-password', function (req, res, next) {
-    // Get the email from the request
-    const email = req.body.email;
-    // Get the user from the database
-    User.findOne({ email: email })
-        .then((data) => {
-            if (data) {
-                // If the user exists
-                res.json({ result: true, token: data.token });
-            } else {
-                // If the user doesn't exist
-                res.json({ result: false, error: 'User not found' });
-            }
-        })
-})
-
 // Modify profile section of a user !!
 
 // Modify the profile picture of a user
@@ -127,8 +93,6 @@ router.post('/visibleOnMap/:token', function (req, res, next) {
         })
 })
 
-// Modify the password of a user
-
 // Delete a user
 
 router.delete('/delete/:token', function (req, res, next) {
@@ -146,12 +110,58 @@ router.delete('/delete/:token', function (req, res, next) {
 
 // Get all the users
 
-// Get all the users visible on map (for the map) & close to the user
+router.get('/all', function (req, res, next) {
+    User.find()
+        .then((data) => {
+            if (data) {
+                res.json({ result: true, users: data });
+            } else {
+                res.json({ result: false, error: 'Something went wrong' });
+            }
+        })
+})
+
+
+// Get all the users visible on map
+
+router.get('/buddies', function (req, res, next) {
+    User.find({ visibleOnMap: true })
+        .then((data) => {
+            if (data) {
+                // If the fetch is successful
+                const usersVisible = data.map((user) => {
+                    return {
+                        firstname: user.firstname,
+                        lastname: user.lastname,
+                        email: user.email,
+                        currentLocation: user.currentLocation,
+                        reason: user.reason,
+                        age: user.age,
+                    }
+                })
+                res.json({ result: true, users: usersVisible });
+            } else {
+                res.json({ result: false, error: 'Something went wrong' });
+            }
+        })
+})
 
 // Modify the location of a user
 
-// Get all the messages of a user for a specific trip
+router.post('/location/:token', function (req, res, next) {
+    const token = req.params.token;
+    const location = req.body.coordinate;
+    User.findOneAndUpdate({ token: token }, { currentLocation: location })
+        .then((data) => {
+            if (data) {
+                res.json({ result: true });
+            } else {
+                res.json({ result: false, error: 'Something went wrong' });
+            }
+        })
+})
 
+// Get all the messages of a user for a specific trip
 
 
 

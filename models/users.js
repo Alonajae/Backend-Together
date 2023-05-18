@@ -1,5 +1,12 @@
 const mongoose = require('mongoose');
 
+const coordinateSchema = new mongoose.Schema({
+    latitude: Number,
+    longitude: Number,
+},
+    { _id: false }
+);
+
 const userSchema = new mongoose.Schema({
     token: String,
     firstname: String,
@@ -8,12 +15,13 @@ const userSchema = new mongoose.Schema({
     password: String,
     inscriptionDate: Date,
     age: Number,
-    reasons: String,
+    reason: String,
     photoId: String,
     profilePicture: String,
     validationVideo: String,
     visibleOnMap: Boolean,
     emergencyContact: String,
+    currentLocation: coordinateSchema,
 });
 
 const User = mongoose.model('users', userSchema);
