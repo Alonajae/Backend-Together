@@ -28,7 +28,7 @@ router.post('/signin', function (req, res, next) {
             firstname: data.firstname,
             lastname: data.lastname,
             inscriptionDate: moment(data.inscriptionDate).format('L'),
-            reason: data.reason,
+            reasons: data.reasons,
             age: data.age,
             profilePicture: data.profilePicture,
             visibleOnMap: data.visibleOnMap,
