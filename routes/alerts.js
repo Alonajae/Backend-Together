@@ -46,7 +46,7 @@ router.post('/add', function (req, res, next) {
                     description: alertInfo.description,
                 });
                 newAlert.save()
-                Alert.findOne({user: ObjectId(data._id)})
+                Alert.findOne({user: data._id})
                     .populate('user')
                     .then((infos) => {
                         const response = {
