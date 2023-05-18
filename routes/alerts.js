@@ -39,20 +39,22 @@ router.post('/add', function (req, res, next) {
             } else {
                 // If the user exists, create a new alert
                 const newAlert = new Alert({
-                    user: ObjectId(data._id),
+                    user: data._id,
                     coordinate: alertInfo.coordinate,
                     date: new Date(),
                     type: alertInfo.type,
                     description: alertInfo.description,
                 });
                 newAlert.save()
-                    .then(() => {
+                Alert.findOne({user: data._id})
+                    .populate('user')
+                    .then((infos) => {
                         const response = {
-                            coordinate: newAlert.coordinate,
-                            date: moment(newAlert.date).format('MMMM Do YYYY, h:mm:ss a'),
-                            type: newAlert.type,
-                            description: newAlert.description,
-                            user: data.firstname,
+                            coordinate: infos.coordinate,
+                            date: moment(infos.date).format('MMMM Do YYYY, h:mm:ss a'),
+                            type: infos.type,
+                            description: infos.description,
+                            user: infos.user.firstname,
                         }
                         res.json({ result: true, alert: response });
                     })

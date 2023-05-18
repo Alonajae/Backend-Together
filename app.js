@@ -11,6 +11,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var tripRouter = require('./routes/trips');
 var safeplaceRouter = require('./routes/safeplaces');  
+var alertRouter = require('./routes/alerts');
 
 var app = express();
 
@@ -31,5 +32,6 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/trips', tripRouter);
 app.use('/safeplaces', safeplaceRouter);
+app.use('/alerts', alertRouter);
 
 module.exports = app;
