@@ -30,6 +30,26 @@ router.post('/upload', async (req, res) => {
     }
 });
 
+
+router.post('/uploadVideo', async (req, res) => {
+    // Get the video from the user
+    const videoPath = `/tmp/${uniqid()}.mov`;
+
+    const resultMoveVideo = await req.files.photoFromFront.mv(photoPath); // absolument faire le move avant le upload et la suppression. ça bouge d'abord - sinon ne fonctionne pas - en dehors de la condition
+    const resultCloudinaryVideo = await cloudinary.uploader.upload(photoPath);
+
+    fs.unlinkSync(videoPath)
+    // console.log('====================================');
+    // console.log(resultCloudinaryVideo);
+    // console.log('====================================');
+
+    if(!resultMoveVideo) {
+        res.json({result: true, url: resultCloudinaryVideo.secure_url});
+    } else {
+        res.json({result: false, error: resultMoveVideo})
+    }
+});
+
 // Modify the infos of a user
 
 router.post('/infos', function (req, res, next) {
