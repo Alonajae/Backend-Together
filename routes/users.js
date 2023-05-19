@@ -160,7 +160,49 @@ router.post('/location', function (req, res, next) {
         })
 })
 
-// Get all the messages of a user for a specific trip
+// Get the infos of your buddy
+
+router.get('/buddy/:token', function (req, res, next) {
+    const token = req.params.token;
+    User.findOne({ token: token })
+        .then((data) => {
+            if (data) {
+                // If the fetch is successful
+                const userVisible = {
+                    firstname: data.firstname,
+                    lastname: data.lastname,
+                    email: data.email,
+                    currentLocation: data.currentLocation,
+                    reasons: data.reasons,
+                    age: data.age,
+                }
+                res.json({ result: true, user: userVisible });
+            } else {
+                res.json({ result: false, error: 'Something went wrong' });
+            }
+        })
+})
+
+// Grant access to app if the validation video is correct
+
+router.post('/grantAccess', function (req, res, next) {
+    const token = req.body.token;
+    const validationVideo = req.body.validationVideo;
+    if(validationVideo){
+        User.findOneAndUpdate({token: token}, {validationVideo: validationVideo, accesGranted: true})
+        .then((data) => {
+            if(data){
+                res.json({result: true});
+            } else {
+                res.json({result: false, error: 'Something went wrong'});
+            }
+        })
+    } else {
+        res.json({result: false, error: 'Something went wrong'});
+    }
+})
+
+
 
 
 
