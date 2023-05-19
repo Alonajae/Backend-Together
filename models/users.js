@@ -20,6 +20,8 @@ const userSchema = new mongoose.Schema({
     profilePicture: String,
     visibleOnMap: Boolean,
     emergencyContact: String,
+    validationVideo: String,
+    accessGranted: Boolean,
     currentLocation: coordinateSchema,
 });
 

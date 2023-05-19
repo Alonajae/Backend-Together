@@ -35,6 +35,7 @@ router.post('/signin', function (req, res, next) {
             emergencyContact: data.emergencyContact,
             email: user.email,
             token: data.token,
+            accessGranted: data.accessGranted,
             currentLocation: data.currentLocation,
           }
           res.json({ result: true, user: infos });
@@ -57,6 +58,7 @@ router.post('/signup', function (req, res, next) {
         const hash = bcrypt.hashSync(user.password, 10);
         const token = uid2(32);
         let emergencyContact;
+        let accessGranted;
         if (user.emergencyContact) {
           emergencyContact = user.emergencyContact;
         } else {
@@ -75,6 +77,8 @@ router.post('/signup', function (req, res, next) {
           photoId: user.photoId,
           profilePicture: user.profilePicture,
           visibleOnMap: false,
+          accessGranted: false,
+          validationVideo: user.validationVideo ? user.validationVideo : undefined,
           emergencyContact: emergencyContact,
           currentLocation: {
             latitude: undefined,
@@ -94,6 +98,7 @@ router.post('/signup', function (req, res, next) {
           emergencyContact: emergencyContact,
           email: user.email,
           token: token,
+          accessGranted: newUser.accessGranted,
         }
         res.json({ result: true, user: infos });
       } else {
