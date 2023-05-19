@@ -58,7 +58,6 @@ router.post('/signup', function (req, res, next) {
         const hash = bcrypt.hashSync(user.password, 10);
         const token = uid2(32);
         let emergencyContact;
-        let accessGranted;
         if (user.emergencyContact) {
           emergencyContact = user.emergencyContact;
         } else {
