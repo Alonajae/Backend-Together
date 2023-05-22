@@ -13,7 +13,7 @@ const bcrypt = require('bcrypt');
 router.post('/upload', async (req, res) => {
     // Get the photo from the request
     try {
-        const photoPath = `./tmp/${uniqid()}.jpg`;
+        const photoPath = `/tmp/${uniqid()}.jpg`;
         const resultMove = await req.files.picture.mv(photoPath);
 
         if (!resultMove) {
