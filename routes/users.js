@@ -34,20 +34,28 @@ router.post('/upload', async (req, res) => {
 
 router.post('/uploadVideo', async (req, res) => {
     // Get the video from the user
-    const videoPath = `/tmp/${uniqid()}.mov`;
-
-    const resultMoveVideo = await req.files.photoFromFront.mv(videoPath); // absolument faire le move avant le upload et la suppression. ça bouge d'abord - sinon ne fonctionne pas - en dehors de la condition
-    const resultCloudinaryVideo = await cloudinary.uploader.upload(videoPath);
-
-    fs.unlinkSync(videoPath)
-    // console.log('====================================');
-    // console.log(resultCloudinaryVideo);
-    // console.log('====================================');
-
-    if(!resultMoveVideo) {
-        res.json({result: true, url: resultCloudinaryVideo.secure_url});
-    } else {
-        res.json({result: false, error: resultMoveVideo})
+    try {
+        const videoPath = `/tmp/${uniqid()}.mov`;
+        console.log('====================================');
+        console.log(req.files);
+        console.log('====================================');
+    
+        const resultMoveVideo = await req.files.video.mv(videoPath); // absolument faire le move avant le upload et la suppression. ça bouge d'abord - sinon ne fonctionne pas - en dehors de la condition
+        const resultCloudinaryVideo = await cloudinary.uploader.upload(videoPath, {resource_type: "video"});
+    
+        fs.unlinkSync(videoPath)
+        // console.log('====================================');
+        // console.log(resultCloudinaryVideo);
+        // console.log('====================================');
+    
+        if(!resultMoveVideo) {
+            res.json({result: true, url: resultCloudinaryVideo.secure_url});
+        } else {
+            res.json({result: false, error: resultMoveVideo})
+        }
+    } catch (error) {
+        console.log(error);
+        res.json({result: false, error: error.message})
     }
 });
 
