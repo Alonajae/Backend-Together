@@ -144,12 +144,16 @@ router.get('/all', function (req, res, next) {
 
 // Get all the users visible on map
 
-router.get('/buddies', function (req, res, next) {
+router.post('/buddies', function (req, res, next) {
+    const token = req.body.token;
     User.find({ visibleOnMap: true })
         .then((data) => {
             if (data) {
+                const usersWithoutMe = data.filter((user) => {
+                    return user.token !== token;
+                })
                 // If the fetch is successful
-                const usersVisible = data.map((user) => {
+                const usersVisible = usersWithoutMe.map((user) => {
                     return {
                         firstname: user.firstname,
                         lastname: user.lastname,
