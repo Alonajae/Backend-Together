@@ -10,10 +10,11 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var tripRouter = require('./routes/trips');
-var safeplaceRouter = require('./routes/safeplaces');  
+var safeplaceRouter = require('./routes/safeplaces');
 var alertRouter = require('./routes/alerts');
 
 var app = express();
+
 
 
 const fileUpload = require('express-fileupload');
@@ -33,5 +34,8 @@ app.use('/users', usersRouter);
 app.use('/trips', tripRouter);
 app.use('/safeplaces', safeplaceRouter);
 app.use('/alerts', alertRouter);
+
+// Require and initialize the socket server
+require('./socketServer');
 
 module.exports = app;
