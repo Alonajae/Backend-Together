@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const Trip = require('../models/trips');
 const User = require('../models/users');
+const fetch = require('node-fetch');
 
 // Get all the trips
 
@@ -38,16 +39,19 @@ router.post('/start', function (req, res, next) {
     const token = req.body.token;
     const from = req.body.currentPosition; // {latitude: ..., longitude: ...}
     const to = req.body.address; // {latitude: ..., longitude: ...}
+    const mode = req.body.mode || 'driving';
 
     const origin = from.latitude + ',' + from.longitude;
     const destination = to.latitude + ',' + to.longitude;
 
+    const directionsUrl = `https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&mode=${mode}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
+
     // Perform directions request using the coordinates
-    fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&key=${process.env.GOOGLE_API_KEY}`)
+    fetch(directionsUrl)
         .then(response => response.json())
         .then(data => {
             // Process the directions response here
-            res.json({ result: true, data: data.routes[0].legs[0] });
+            res.json({ result: true, data: data });
         })
         .catch(error => {
             console.error('Error:', error);
