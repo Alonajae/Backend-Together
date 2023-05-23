@@ -41,7 +41,7 @@ router.post('/start', function (req, res, next) {
     fetch('https://maps.googleapis.com/maps/api/geocode/json?origin=' + from + '&destination=' + to + '&key=' + process.env.GOOGLE_MAPS_API_KEY)
         .then((response) => response.json())
         .then((data) => {
-            console.log(data, token);
+            res.json({ result: true, data: data });
         })
 })
 
