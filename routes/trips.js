@@ -43,7 +43,7 @@ router.post('/start', function (req, res, next) {
     const destination = to.latitude + ',' + to.longitude;
 
     // Perform directions request using the coordinates
-    fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&key=${process.env.GOOGLE_MAPS_API_KEY}`)
+    fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&key=${process.env.GOOGLE_API_KEY}`)
         .then(response => response.json())
         .then(data => {
             // Process the directions response here
