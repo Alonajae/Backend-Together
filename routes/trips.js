@@ -36,44 +36,22 @@ router.get('/user/:token', function (req, res, next) {
 
 router.post('/start', function (req, res, next) {
     const token = req.body.token;
-    const from = req.body.currentPosition;
-    const to = req.body.address;
-    fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + encodeURIComponent(from) + '&key=' + process.env.GOOGLE_MAPS_API_KEY)
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'OK' && data.results.length > 0) {
-                const originLocation = data.results[0].geometry.location;
-
-                fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + encodeURIComponent(to) + '&key=' + process.env.GOOGLE_MAPS_API_KEY)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.status === 'OK' && data.results.length > 0) {
-                            const destinationLocation = data.results[0].geometry.location;
-
-                            // Perform directions request using the obtained coordinates
-                            fetch('https://maps.googleapis.com/maps/api/directions/json?origin=' + originLocation.lat + ',' + originLocation.lng + '&destination=' + destinationLocation.lat + ',' + destinationLocation.lng + '&key=' + process.env.GOOGLE_MAPS_API_KEY)
-                                .then(response => response.json())
-                                .then(data => {
-                                    // Process the directions response here
-                                    console.log(data);
-                                })
-                                .catch(error => {
-                                    console.error('Error:', error);
-                                });
-                        } else {
-                            console.error('Invalid destination address');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                    });
-            } else {
-                console.error('Invalid origin address');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+    const from = req.body.currentPosition; // {latitude: ..., longitude: ...}
+    const to = req.body.address; // {latitude: ..., longitude: ...}
+    
+    const origin = from.latitude + ',' + from.longitude;
+    const destination = to.latitude + ',' + to.longitude;
+    
+    // Perform directions request using the coordinates
+    fetch('https://maps.googleapis.com/maps/api/directions/json?origin=' + origin + '&destination=' + destination + '&key=' + process.env.GOOGLE_MAPS_API_KEY)
+      .then(response => response.json())
+      .then(data => {
+        // Process the directions response here
+        res.json({ result: true, data: data });
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
 })
 
 
