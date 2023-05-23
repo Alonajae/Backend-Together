@@ -32,5 +32,20 @@ router.get('/user/:token', function (req, res, next) {
         })
 })
 
+// Create the first part of the trip
+
+router.post('/start', function (req, res, next) {
+    const token = req.body.token;
+    const from = req.body.currentPosition;
+    const to = req.body.address;
+    fetch('https://maps.googleapis.com/maps/api/geocode/json?origin=' + from + '&destination=' + to + '&key=' + process.env.GOOGLE_MAPS_API_KEY)
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data, token);
+        })
+})
+
+
+
 
 module.exports = router;
