@@ -47,7 +47,7 @@ router.post('/start', function (req, res, next) {
         .then(response => response.json())
         .then(data => {
             // Process the directions response here
-            res.json({ result: true, data: data });
+            res.json({ result: true, data: data.routes[0].legs[0] });
         })
         .catch(error => {
             console.error('Error:', error);
