@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema({
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
     from: coordinateSchema,
     to: coordinateSchema,
+    isArrived: Boolean,
 },
     { _id: false }
 );
