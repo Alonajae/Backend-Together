@@ -38,20 +38,21 @@ router.post('/start', function (req, res, next) {
     const token = req.body.token;
     const from = req.body.currentPosition; // {latitude: ..., longitude: ...}
     const to = req.body.address; // {latitude: ..., longitude: ...}
-    
+
     const origin = from.latitude + ',' + from.longitude;
     const destination = to.latitude + ',' + to.longitude;
-    
+
     // Perform directions request using the coordinates
-    fetch('https://maps.googleapis.com/maps/api/directions/json?origin=' + origin + '&destination=' + destination + '&key=' + process.env.GOOGLE_MAPS_API_KEY)
-      .then(response => response.json())
-      .then(data => {
-        // Process the directions response here
-        res.json({ result: true, data: data });
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
+    fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&key=${process.env.GOOGLE_MAPS_API_KEY}`)
+        .then(response => response.json())
+        .then(data => {
+            // Process the directions response here
+            res.json({ result: true, data: data });
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+
 })
 
 
