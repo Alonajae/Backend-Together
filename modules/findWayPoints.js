@@ -52,4 +52,4 @@ function findWaypoints(itineraryA, itineraryB) {
     return selectedWaypoints;
 }
 
-module.exports = { findWaypoints };
+module.exports = { findWaypoints, calculateDistance };

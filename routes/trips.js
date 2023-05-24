@@ -6,7 +6,7 @@ const fetch = require('node-fetch');
 const uniqid = require('uniqid');
 const fs = require('fs');
 
-const { findWaypoints } = require('../modules/findWayPoints');
+const { findWaypoints, calculateDistance } = require('../modules/findWayPoints');
 
 // Get all the trips
 
