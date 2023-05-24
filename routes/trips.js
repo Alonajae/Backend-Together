@@ -39,7 +39,7 @@ router.post('/start', function (req, res, next) {
     const token = req.body.token;
     const from = req.body.currentPosition; // {latitude: ..., longitude: ...}
     const to = req.body.address; // {latitude: ..., longitude: ...}
-    const mode = req.body.mode || 'driving';
+    const mode = req.body.mode || 'walking';
 
     const origin = from.latitude + ',' + from.longitude;
     const destination = to.latitude + ',' + to.longitude;
