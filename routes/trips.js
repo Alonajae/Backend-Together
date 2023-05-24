@@ -92,6 +92,7 @@ router.post('/findBuddy', function (req, res, next) {
                                 profilePicture: user.profilePicture,
                                 age: user.age,
                                 reasons: user.reasons,
+                                itinerary: user.itinerary,
                             };
                             return { user: newUser, similarity: similarityPercentageRounded };
                         })
@@ -116,6 +117,30 @@ router.post('/relationBuddy', function (req, res, next) {
             }
         })
 })
+
+// Create the fourth part of the trip
+
+// router.post('/sharedtrip', function (req, res, next) {
+//     const token = req.body.token;
+//     const buddyToken = req.body.buddyToken;
+//     const from = req.body.currentPosition; // {latitude: ..., longitude: ...}
+//     const to = req.body.address; // {latitude: ..., longitude: ...}
+//     const mode = req.body.mode || 'walking';
+
+//     const origin = from.latitude + ',' + from.longitude;
+//     const destination = to.latitude + ',' + to.longitude;
+
+//     const waypoints = req.body.itinerary.points.map((point) => {
+//         return point.latitude.toFixed(4) + ',' + point.longitude.toFixed(4);
+//     });
+
+//     const directionsUrl = `https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&mode=${mode}&key=${process.env.GOOGLE_API_KEY}`;
+
+//     // Perform directions request using the coordinates
+//     fetch(directionsUrl)
+//         .then(response => response.json())
+
+
 
 
 
