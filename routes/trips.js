@@ -6,7 +6,7 @@ const fetch = require('node-fetch');
 const uniqid = require('uniqid');
 const fs = require('fs');
 
-const { findWaypoints, calculateDistance } = require('../modules/findWayPoints');
+const { findWaypoints } = require('../modules/findWayPoints');
 
 // Get all the trips
 
@@ -90,7 +90,7 @@ router.post('/findBuddy', function (req, res, next) {
 
                             let waypoints = findWaypoints(itinerary, user.itinerary);
                             waypoints = waypoints.map((waypoint) => {
-                                return { latitude: waypoint.split(',')[0], longitude: waypoint.split(',')[1] };
+                                return { latitude: parseFloat(waypoint.pointA.split(',')[0]), longitude: parseFloat(waypoint.pointA.split(',')[1]) };
                             })
 
                             let newUser = {
