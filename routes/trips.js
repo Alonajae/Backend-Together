@@ -88,7 +88,10 @@ router.post('/findBuddy', function (req, res, next) {
                             let similarityPercentage = similarity / itinerary.length;
                             let similarityPercentageRounded = Math.round(similarityPercentage * 100);
 
-                            const waypoints = findWaypoints(itinerary, user.itinerary);
+                            let waypoints = findWaypoints(itinerary, user.itinerary);
+                            waypoints = waypoints.map((waypoint) => {
+                                return { latitude: waypoint.split(',')[0], longitude: waypoint.split(',')[1] };
+                            })
 
                             let newUser = {
                                 token: user.token,
