@@ -59,6 +59,52 @@ router.post('/start', function (req, res, next) {
 
 })
 
+// Create the second part of the trip
+
+router.post('/findBuddy', function (req, res, next) {
+    const token = req.body.token;
+    const itinerary = req.body.itinerary;
+    User.findOneAndUpdate({ token: token }, { isSearching: true, itinerary: itinerary })
+        .then((data) => {
+            if (data) {
+                User.find({ isSearching: true })
+                    .then((users) => {
+                        const onlyOthers = users.filter((user) => {
+                            return user.token !== token;
+                        })
+                        const buddies = onlyOthers.map((user) => {
+                            let similarity = 0;
+                            itinerary.forEach((step) => {
+                                if (user.itinerary.includes(step)) {
+                                    similarity++;
+                                }
+                                let similarityPercentage = similarity / itinerary.length;
+                                let similarityPercentageRounded = Math.round(similarityPercentage * 100);
+                                let newObject = {
+                                    user: {
+                                        token: user.token,
+                                        firstname: user.firstname,
+                                        lastname: user.lastname,
+                                        email: user.email,
+                                        currentLocation: user.currentLocation,
+                                        profilePicture: user.profilePicture,
+                                        age: user.age,
+                                        reasons: user.reasons,
+                                    },
+                                    similarity: similarityPercentageRounded
+                                }
+                                return { user: newObject, similarity: similarityPercentageRounded };
+                            })
+                        })
+                        res.json({ result: true, buddies: buddies });
+                    })
+            } else {
+                res.json({ result: false, error: 'Something went wrong' });
+            }
+        })
+})
+
+
 
 
 
