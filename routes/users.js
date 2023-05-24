@@ -169,6 +169,7 @@ router.post('/buddies', function (req, res, next) {
                         currentLocation: user.currentLocation,
                         reasons: user.reasons,
                         age: user.age,
+                        profilePicture: user.profilePicture,
                     }
                 })
                 res.json({ result: true, users: usersVisible });
