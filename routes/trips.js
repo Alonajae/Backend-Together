@@ -106,6 +106,21 @@ router.post('/findBuddy', function (req, res, next) {
         })
 })
 
+// Create the third part of the trip
+
+router.post('/relationBuddy', function (req, res, next) {
+    const token = req.body.token;
+    User.findOneAndUpdate({ token: token }, { isSearching: false, itinerary: [] })
+        .then((data) => {
+            if (data) {
+                res.json({ result: true, data: data });
+            } else {
+                res.json({ result: false, error: 'Something went wrong' });
+            }
+        })
+})
+
+
 
 
 
