@@ -82,20 +82,17 @@ router.post('/findBuddy', function (req, res, next) {
                                 }
                                 let similarityPercentage = similarity / itinerary.length;
                                 let similarityPercentageRounded = Math.round(similarityPercentage * 100);
-                                let newObject = {
-                                    user: {
-                                        token: user.token,
-                                        firstname: user.firstname,
-                                        lastname: user.lastname,
-                                        email: user.email,
-                                        currentLocation: user.currentLocation,
-                                        profilePicture: user.profilePicture,
-                                        age: user.age,
-                                        reasons: user.reasons,
-                                    },
-                                    similarity: similarityPercentageRounded
-                                }
-                                return { user: newObject, similarity: similarityPercentageRounded };
+                                let newUser = {
+                                    token: user.token,
+                                    firstname: user.firstname,
+                                    lastname: user.lastname,
+                                    email: user.email,
+                                    currentLocation: user.currentLocation,
+                                    profilePicture: user.profilePicture,
+                                    age: user.age,
+                                    reasons: user.reasons,
+                                };
+                                return { user: newUser, similarity: similarityPercentageRounded };
                             })
                         })
                         res.json({ result: true, buddies: buddies });
