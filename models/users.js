@@ -22,6 +22,8 @@ const userSchema = new mongoose.Schema({
     emergencyContact: String,
     validationVideo: String,
     accessGranted: Boolean,
+    isSearching: Boolean,
+    itinerary: Array,
     currentLocation: coordinateSchema,
 });
 

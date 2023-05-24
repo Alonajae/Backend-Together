@@ -79,6 +79,8 @@ router.post('/signup', function (req, res, next) {
           accessGranted: false,
           validationVideo: user.validationVideo ? user.validationVideo : undefined,
           emergencyContact: emergencyContact,
+          isSearching: false,
+          itinerary: [],
           currentLocation: {
             latitude: undefined,
             longitude: undefined,
