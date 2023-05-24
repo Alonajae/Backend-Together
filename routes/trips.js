@@ -80,20 +80,20 @@ router.post('/findBuddy', function (req, res, next) {
                                 if (user.itinerary.includes(step)) {
                                     similarity++;
                                 }
-                                let similarityPercentage = similarity / itinerary.length;
-                                let similarityPercentageRounded = Math.round(similarityPercentage * 100);
-                                let newUser = {
-                                    token: user.token,
-                                    firstname: user.firstname,
-                                    lastname: user.lastname,
-                                    email: user.email,
-                                    currentLocation: user.currentLocation,
-                                    profilePicture: user.profilePicture,
-                                    age: user.age,
-                                    reasons: user.reasons,
-                                };
-                                return { user: newUser, similarity: similarityPercentageRounded };
                             })
+                            let similarityPercentage = similarity / itinerary.length;
+                            let similarityPercentageRounded = Math.round(similarityPercentage * 100);
+                            let newUser = {
+                                token: user.token,
+                                firstname: user.firstname,
+                                lastname: user.lastname,
+                                email: user.email,
+                                currentLocation: user.currentLocation,
+                                profilePicture: user.profilePicture,
+                                age: user.age,
+                                reasons: user.reasons,
+                            };
+                            return { user: newUser, similarity: similarityPercentageRounded };
                         })
                         res.json({ result: true, buddies: buddies });
                     })
