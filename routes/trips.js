@@ -3,6 +3,10 @@ var router = express.Router();
 const Trip = require('../models/trips');
 const User = require('../models/users');
 const fetch = require('node-fetch');
+const uniqid = require('uniqid');
+const fs = require('fs');
+
+const { findWaypoints } = require('../modules/findWayPoints');
 
 // Get all the trips
 
@@ -83,6 +87,9 @@ router.post('/findBuddy', function (req, res, next) {
                             })
                             let similarityPercentage = similarity / itinerary.length;
                             let similarityPercentageRounded = Math.round(similarityPercentage * 100);
+
+                            const waypoints = findWaypoints(itinerary, user.itinerary);
+
                             let newUser = {
                                 token: user.token,
                                 firstname: user.firstname,
@@ -94,7 +101,7 @@ router.post('/findBuddy', function (req, res, next) {
                                 reasons: user.reasons,
                                 itinerary: user.itinerary,
                             };
-                            return { user: newUser, similarity: similarityPercentageRounded };
+                            return { user: newUser, similarity: similarityPercentageRounded, waypoints: waypoints };
                         })
                         res.json({ result: true, buddies: buddies });
                     })
