@@ -63,7 +63,7 @@ router.post('/start', function (req, res, next) {
 
 router.post('/findBuddy', function (req, res, next) {
     const token = req.body.token;
-    const itinerary = req.body.itinerary[0].points.map((point) => {
+    const itinerary = req.body.itinerary.points.map((point) => {
         return point.latitude + ',' + point.longitude;
     });
     User.findOneAndUpdate({ token: token }, { isSearching: true, itinerary: itinerary })
