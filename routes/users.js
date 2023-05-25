@@ -223,7 +223,7 @@ router.post('/grantAccess', function (req, res, next) {
     const token = req.body.token;
     const validationVideo = req.body.validationVideo;
     if(validationVideo){
-        User.findOneAndUpdate({token: token}, {validationVideo: validationVideo, accesGranted: true})
+        User.findOneAndUpdate({token: token}, {validationVideo: validationVideo, accessGranted: true})
         .then((data) => {
             if(data){
                 res.json({result: true});
