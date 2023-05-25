@@ -3,8 +3,6 @@ var router = express.Router();
 const Trip = require('../models/trips');
 const User = require('../models/users');
 const fetch = require('node-fetch');
-const uniqid = require('uniqid');
-const fs = require('fs');
 
 const { findWaypoints } = require('../modules/findWayPoints');
 
@@ -88,9 +86,18 @@ router.post('/findBuddy', function (req, res, next) {
                             let similarityPercentage = similarity / itinerary.length;
                             let similarityPercentageRounded = Math.round(similarityPercentage * 100);
 
-                            let waypoints = findWaypoints(itinerary, user.itinerary);
-                            waypoints = waypoints.map((waypoint) => {
+                            let formattedItinerary = user.itinerary.filter((step) => {
+                                return step !== 'undefined,undefined';
+                            })
+
+                            let formattedItinerary2 = itinerary.filter((step) => {
+                                return step !== 'undefined,undefined';
+                            })
+
+                            let waypoints = findWaypoints(formattedItinerary2, formattedItinerary);
+                            waypoints = waypoints.map((waypoint, i) => {
                                 return { latitude: parseFloat(waypoint.pointA.split(',')[0]), longitude: parseFloat(waypoint.pointA.split(',')[1]) };
+
                             })
 
                             let newUser = {
@@ -157,7 +164,6 @@ router.post('/sharedtrip', function (req, res, next) {
             console.error('Error:', error);
         });
 })
-
 
 
 
