@@ -88,19 +88,19 @@ router.post('/findBuddy', function (req, res, next) {
 
                             let formattedItinerary = itinerary.map((step) => {
                                 if (step !== 'undefined,undefined' || step !== undefined) {
-                                    return { latitude: parseFloat(step.split(',')[0]), longitude: parseFloat(step.split(',')[1]) };
+                                    return step
                                 }
                             })
 
 
                             let formattedItinerary2 = itinerary.map((step) => {
                                 if (step !== 'undefined,undefined' || step !== undefined) {
-                                    return { latitude: parseFloat(step.split(',')[0]), longitude: parseFloat(step.split(',')[1]) };
+                                    return step
                                 }
                             })
 
                             let waypoints = findWaypoints(formattedItinerary2, formattedItinerary);
-                            waypoints = waypoints.map((waypoint, i) => {
+                            waypoints = waypoints.map((waypoint) => {
                                 return { latitude: parseFloat(waypoint.pointA.split(',')[0]), longitude: parseFloat(waypoint.pointA.split(',')[1]) };
 
                             })
