@@ -88,24 +88,29 @@ router.post('/findBuddy', function (req, res, next) {
 
                             let formattedItinerary = itinerary.map((step) => {
                                 if (step !== 'undefined,undefined' && step !== undefined) {
-                                    return { latitude: parseFloat(step.split(',')[0]), longitude: parseFloat(step.split(',')[1]) }
+                                  const [latitude, longitude] = step.split(',');
+                                  return { latitude: parseFloat(latitude), longitude: parseFloat(longitude) };
                                 }
-                            })
-
-                            let formattedItinerary2 = user.itinerary.map((step) => {
+                              });
+                              
+                              let formattedItinerary2 = user.itinerary.map((step) => {
                                 if (step !== 'undefined,undefined' && step !== undefined) {
-                                    return { latitude: parseFloat(step.split(',')[0]), longitude: parseFloat(step.split(',')[1]) }
+                                  const [latitude, longitude] = step.split(',');
+                                  return { latitude: parseFloat(latitude), longitude: parseFloat(longitude) };
                                 }
-                            })
-
-                            let waypoints = findWaypoints(formattedItinerary, formattedItinerary2);
-                            waypoints = waypoints.map((waypoint) => {
-                                const [latitude, longitude] = waypoint.pointA.split(',');
+                              });
+                              
+                              let waypoints = findWaypoints(formattedItinerary, formattedItinerary2);
+                              waypoints = waypoints.map((waypoint) => {
+                                const [latitudeA, longitudeA] = waypoint.pointA.split(',');
+                                const [latitudeB, longitudeB] = waypoint.pointB.split(',');
                                 return {
-                                    latitude: parseFloat(latitude),
-                                    longitude: parseFloat(longitude),
+                                  latitude: parseFloat(latitudeA),
+                                  longitude: parseFloat(longitudeA),
+                                  latitudeB: parseFloat(latitudeB),
+                                  longitudeB: parseFloat(longitudeB),
                                 };
-                            });
+                              });
 
                             let newUser = {
                                 token: user.token,
