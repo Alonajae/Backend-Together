@@ -142,7 +142,7 @@ router.post('/sharedtrip', function (req, res, next) {
     const origin = `${from.latitude},${from.longitude}`;
     const destination = `${to.latitude},${to.longitude}`;
 
-    const waypointsString = waypoints.map(waypoint => `${waypoint.latitude.toFixed(5)},${waypoint.longitude.toFixed(5)}`).join('|');
+    const waypointsString = waypoints.map(waypoint => `${waypoint.latitude},${waypoint.longitude}`).join('|');
 
     const directionsUrl = `https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&waypoints=${waypointsString}&mode=${mode}$&key=${process.env.GOOGLE_API_KEY}`;
 
