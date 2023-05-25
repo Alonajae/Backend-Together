@@ -86,31 +86,48 @@ router.post('/findBuddy', function (req, res, next) {
                             let similarityPercentage = similarity / itinerary.length;
                             let similarityPercentageRounded = Math.round(similarityPercentage * 100);
 
+                            // let formattedItinerary = itinerary.map((step) => {
+                            //     if (step !== 'undefined,undefined' && step !== undefined) {
+                            //       const [latitude, longitude] = step.split(',');
+                            //       return { latitude: parseFloat(latitude), longitude: parseFloat(longitude) };
+                            //     }
+                            //   });
+
+                            //   let formattedItinerary2 = user.itinerary.map((step) => {
+                            //     if (step !== 'undefined,undefined' && step !== undefined) {
+                            //       const [latitude, longitude] = step.split(',');
+                            //       return { latitude: parseFloat(latitude), longitude: parseFloat(longitude) };
+                            //     }
+                            //   });
+
+                            //   let waypoints = findWaypoints(formattedItinerary, formattedItinerary2);
+                            //   waypoints = waypoints.map((waypoint) => {
+                            //     const [latitudeA, longitudeA] = waypoint.pointA.split(',');
+                            //     const [latitudeB, longitudeB] = waypoint.pointB.split(',');
+                            //     return {
+                            //       latitude: parseFloat(latitudeA),
+                            //       longitude: parseFloat(longitudeA),
+                            //       latitudeB: parseFloat(latitudeB),
+                            //       longitudeB: parseFloat(longitudeB),
+                            //     };
+                            //   });
+
                             let formattedItinerary = itinerary.map((step) => {
-                                if (step !== 'undefined,undefined' && step !== undefined) {
-                                  const [latitude, longitude] = step.split(',');
-                                  return { latitude: parseFloat(latitude), longitude: parseFloat(longitude) };
+                                if (step.split(',')[0] !== 'undefined' && step.split(',')[1] !== 'undefined' && step !== 'undefined,undefined' && step !== undefined) {
+                                    return step
                                 }
-                              });
-                              
-                              let formattedItinerary2 = user.itinerary.map((step) => {
-                                if (step !== 'undefined,undefined' && step !== undefined) {
-                                  const [latitude, longitude] = step.split(',');
-                                  return { latitude: parseFloat(latitude), longitude: parseFloat(longitude) };
+                            })
+
+                            let formattedItinerary2 = user.itinerary.map((step) => {
+                                if (step.split(',')[0] !== 'undefined' && step.split(',')[1] !== 'undefined' && step !== 'undefined,undefined' && step !== undefined) {
+                                    return step
                                 }
-                              });
-                              
-                              let waypoints = findWaypoints(formattedItinerary, formattedItinerary2);
-                              waypoints = waypoints.map((waypoint) => {
-                                const [latitudeA, longitudeA] = waypoint.pointA.split(',');
-                                const [latitudeB, longitudeB] = waypoint.pointB.split(',');
-                                return {
-                                  latitude: parseFloat(latitudeA),
-                                  longitude: parseFloat(longitudeA),
-                                  latitudeB: parseFloat(latitudeB),
-                                  longitudeB: parseFloat(longitudeB),
-                                };
-                              });
+                            })
+
+                            let waypoints = findWaypoints(formattedItinerary, formattedItinerary2);
+                            waypoints = waypoints.map((waypoint) => {
+                                return { latitude: parseFloat(waypoint.pointA.split(',')[0]), longitude: parseFloat(waypoint.pointA.split(',')[1]) };
+                            })
 
                             let newUser = {
                                 token: user.token,
