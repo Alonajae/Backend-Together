@@ -87,14 +87,13 @@ router.post('/findBuddy', function (req, res, next) {
                             let similarityPercentageRounded = Math.round(similarityPercentage * 100);
 
                             let formattedItinerary = itinerary.map((step) => {
-                                if (step !== 'undefined,undefined' || step !== undefined) {
+                                if (step !== 'undefined,undefined' && step !== undefined) {
                                     return step
                                 }
                             })
 
-
                             let formattedItinerary2 = user.itinerary.map((step) => {
-                                if (step !== 'undefined,undefined' || step !== undefined) {
+                                if (step !== 'undefined,undefined' && step !== undefined) {
                                     return step
                                 }
                             })
