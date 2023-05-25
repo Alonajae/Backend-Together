@@ -63,89 +63,160 @@ router.post('/start', function (req, res, next) {
 
 // Create the second part of the trip
 
+// router.post('/findBuddy', function (req, res, next) {
+//     const token = req.body.token;
+//     const itinerary = req.body.itinerary.points.map((point) => {
+//         return point.latitude.toFixed(4) + ',' + point.longitude.toFixed(4);
+//     });
+//     User.findOneAndUpdate({ token: token }, { isSearching: true, itinerary: itinerary })
+//         .then((data) => {
+//             if (data) {
+//                 User.find({ isSearching: true })
+//                     .then((users) => {
+//                         const onlyOthers = users.filter((user) => {
+//                             return user.token !== token;
+//                         })
+//                         const buddies = onlyOthers.map((user) => {
+//                             let similarity = 0;
+//                             itinerary.forEach((step) => {
+//                                 if (user.itinerary.includes(step)) {
+//                                     similarity++;
+//                                 }
+//                             })
+//                             let similarityPercentage = similarity / itinerary.length;
+//                             let similarityPercentageRounded = Math.round(similarityPercentage * 100);
+
+//                             // let formattedItinerary = itinerary.map((step) => {
+//                             //     if (step !== 'undefined,undefined' && step !== undefined) {
+//                             //       const [latitude, longitude] = step.split(',');
+//                             //       return { latitude: parseFloat(latitude), longitude: parseFloat(longitude) };
+//                             //     }
+//                             //   });
+
+//                             //   let formattedItinerary2 = user.itinerary.map((step) => {
+//                             //     if (step !== 'undefined,undefined' && step !== undefined) {
+//                             //       const [latitude, longitude] = step.split(',');
+//                             //       return { latitude: parseFloat(latitude), longitude: parseFloat(longitude) };
+//                             //     }
+//                             //   });
+
+
+
+//                             let formattedItinerary = itinerary.map((step) => {
+//                                 if (step.split(',')[0] !== 'undefined' && step.split(',')[1] !== 'undefined' && step !== 'undefined,undefined' && step !== undefined) {
+//                                     return step
+//                                 }
+//                             })
+
+//                             let formattedItinerary2 = user.itinerary.map((step) => {
+//                                 if (step.split(',')[0] !== 'undefined' && step.split(',')[1] !== 'undefined' && step !== 'undefined,undefined' && step !== undefined) {
+//                                     return step
+//                                 }
+//                             })
+
+//                             let waypoints = findWaypoints(formattedItinerary, formattedItinerary2);
+//                             waypoints = waypoints.map((waypoint) => {
+//                                 const [latitudeA, longitudeA] = waypoint.pointA.split(',');
+//                                 const [latitudeB, longitudeB] = waypoint.pointB.split(',');
+//                                 return {
+//                                     latitude: parseFloat(latitudeA),
+//                                     longitude: parseFloat(longitudeA),
+//                                     latitudeB: parseFloat(latitudeB),
+//                                     longitudeB: parseFloat(longitudeB),
+//                                 };
+//                             });
+
+//                             let newUser = {
+//                                 token: user.token,
+//                                 firstname: user.firstname,
+//                                 lastname: user.lastname,
+//                                 email: user.email,
+//                                 currentLocation: user.currentLocation,
+//                                 profilePicture: user.profilePicture,
+//                                 age: user.age,
+//                                 reasons: user.reasons,
+//                                 itinerary: user.itinerary,
+//                             };
+//                             return { user: newUser, similarity: similarityPercentageRounded, waypoints: waypoints };
+//                         })
+//                         res.json({ result: true, buddies: buddies });
+//                     })
+//             } else {
+//                 res.json({ result: false, error: 'Something went wrong' });
+//             }
+//         })
+// })
+
 router.post('/findBuddy', function (req, res, next) {
     const token = req.body.token;
     const itinerary = req.body.itinerary.points.map((point) => {
-        return point.latitude.toFixed(4) + ',' + point.longitude.toFixed(4);
+      return point.latitude.toFixed(4) + ',' + point.longitude.toFixed(4);
     });
     User.findOneAndUpdate({ token: token }, { isSearching: true, itinerary: itinerary })
-        .then((data) => {
-            if (data) {
-                User.find({ isSearching: true })
-                    .then((users) => {
-                        const onlyOthers = users.filter((user) => {
-                            return user.token !== token;
-                        })
-                        const buddies = onlyOthers.map((user) => {
-                            let similarity = 0;
-                            itinerary.forEach((step) => {
-                                if (user.itinerary.includes(step)) {
-                                    similarity++;
-                                }
-                            })
-                            let similarityPercentage = similarity / itinerary.length;
-                            let similarityPercentageRounded = Math.round(similarityPercentage * 100);
-
-                            // let formattedItinerary = itinerary.map((step) => {
-                            //     if (step !== 'undefined,undefined' && step !== undefined) {
-                            //       const [latitude, longitude] = step.split(',');
-                            //       return { latitude: parseFloat(latitude), longitude: parseFloat(longitude) };
-                            //     }
-                            //   });
-
-                            //   let formattedItinerary2 = user.itinerary.map((step) => {
-                            //     if (step !== 'undefined,undefined' && step !== undefined) {
-                            //       const [latitude, longitude] = step.split(',');
-                            //       return { latitude: parseFloat(latitude), longitude: parseFloat(longitude) };
-                            //     }
-                            //   });
-
-
-
-                            let formattedItinerary = itinerary.map((step) => {
-                                if (step.split(',')[0] !== 'undefined' && step.split(',')[1] !== 'undefined' && step !== 'undefined,undefined' && step !== undefined) {
-                                    return step
-                                }
-                            })
-
-                            let formattedItinerary2 = user.itinerary.map((step) => {
-                                if (step.split(',')[0] !== 'undefined' && step.split(',')[1] !== 'undefined' && step !== 'undefined,undefined' && step !== undefined) {
-                                    return step
-                                }
-                            })
-
-                            let waypoints = findWaypoints(formattedItinerary, formattedItinerary2);
-                            waypoints = waypoints.map((waypoint) => {
-                                const [latitudeA, longitudeA] = waypoint.pointA.split(',');
-                                const [latitudeB, longitudeB] = waypoint.pointB.split(',');
-                                return {
-                                    latitude: parseFloat(latitudeA),
-                                    longitude: parseFloat(longitudeA),
-                                    latitudeB: parseFloat(latitudeB),
-                                    longitudeB: parseFloat(longitudeB),
-                                };
-                            });
-
-                            let newUser = {
-                                token: user.token,
-                                firstname: user.firstname,
-                                lastname: user.lastname,
-                                email: user.email,
-                                currentLocation: user.currentLocation,
-                                profilePicture: user.profilePicture,
-                                age: user.age,
-                                reasons: user.reasons,
-                                itinerary: user.itinerary,
-                            };
-                            return { user: newUser, similarity: similarityPercentageRounded, waypoints: waypoints };
-                        })
-                        res.json({ result: true, buddies: buddies });
-                    })
-            } else {
-                res.json({ result: false, error: 'Something went wrong' });
-            }
-        })
-})
+      .then((data) => {
+        if (data) {
+          User.find({ isSearching: true })
+            .then((users) => {
+              const onlyOthers = users.filter((user) => {
+                return user.token !== token;
+              });
+              const buddies = onlyOthers.map((user) => {
+                let similarity = 0;
+                itinerary.forEach((step) => {
+                  if (user.itinerary.includes(step)) {
+                    similarity++;
+                  }
+                });
+                let similarityPercentage = similarity / itinerary.length;
+                let similarityPercentageRounded = Math.round(similarityPercentage * 100);
+  
+                let formattedItinerary = itinerary.map((step) => {
+                  if (step.split(',')[0] !== 'undefined' && step.split(',')[1] !== 'undefined' && step !== 'undefined,undefined' && step !== undefined) {
+                    const [latitude, longitude] = step.split(',');
+                    return { latitude: parseFloat(latitude), longitude: parseFloat(longitude) };
+                  }
+                });
+  
+                let formattedItinerary2 = user.itinerary.map((step) => {
+                  if (step.split(',')[0] !== 'undefined' && step.split(',')[1] !== 'undefined' && step !== 'undefined,undefined' && step !== undefined) {
+                    const [latitude, longitude] = step.split(',');
+                    return { latitude: parseFloat(latitude), longitude: parseFloat(longitude) };
+                  }
+                });
+  
+                let waypoints = findWaypoints(formattedItinerary, formattedItinerary2);
+                waypoints = waypoints.map((waypoint) => {
+                  const [latitudeA, longitudeA] = waypoint.pointA.split(',');
+                  const [latitudeB, longitudeB] = waypoint.pointB.split(',');
+                  return {
+                    latitude: parseFloat(latitudeA),
+                    longitude: parseFloat(longitudeA),
+                    latitudeB: parseFloat(latitudeB),
+                    longitudeB: parseFloat(longitudeB),
+                  };
+                });
+  
+                let newUser = {
+                  token: user.token,
+                  firstname: user.firstname,
+                  lastname: user.lastname,
+                  email: user.email,
+                  currentLocation: user.currentLocation,
+                  profilePicture: user.profilePicture,
+                  age: user.age,
+                  reasons: user.reasons,
+                  itinerary: user.itinerary,
+                };
+                return { user: newUser, similarity: similarityPercentageRounded, waypoints: waypoints };
+              });
+              res.json({ result: true, buddies: buddies });
+            });
+        } else {
+          res.json({ result: false, error: 'Something went wrong' });
+        }
+      });
+  });
+  
 
 // Create the third part of the trip
 
