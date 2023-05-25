@@ -21,63 +21,63 @@ function calculateDistance(pointA, pointB) {
   return distance;
 }
 
-// function findWaypoints(itineraryA, itineraryB) {
-//   const polylineA = itineraryA;
-//   const polylineB = itineraryB;
-//   const numWaypoints = 2;
-//   const stepSize = Math.floor(polylineA.length / numWaypoints);
-
-//   const waypoints = [];
-
-//   for (let i = 0; i < numWaypoints; i++) {
-//     const indexA = i * stepSize;
-//     const indexB = i * stepSize;
-
-//     const pointA = polylineA[indexA];
-//     const pointB = polylineB[indexB];
-//     if (pointB === undefined || pointA === undefined) {
-//       console.log('point is undefined');
-//       console.log(pointB);
-//       console.log(pointA);
-//     } else {
-//       const distance = calculateDistance(pointA, pointB);
-
-//       waypoints.push({
-//         pointA,
-//         pointB,
-//         distance
-//       });
-//     }
-//   }
-
-//   waypoints.sort((a, b) => a.distance - b.distance);
-
-//   const selectedWaypoints = waypoints.slice(0, numWaypoints);
-
-//   return selectedWaypoints;
-// }
-
 function findWaypoints(itineraryA, itineraryB) {
-  const pointAStart = itineraryA[0];
-  const pointBStart = itineraryB[0];
-  const pointALast = itineraryA[itineraryA.length - 1];
-  const pointBLast = itineraryB[itineraryB.length - 1];
+  const polylineA = itineraryA;
+  const polylineB = itineraryB;
+  const numWaypoints = 2;
+  const stepSize = Math.floor(polylineA.length / numWaypoints);
 
-  const closestStart = calculateDistance(pointAStart, pointBStart);
-  const closestLast = calculateDistance(pointALast, pointBLast);
+  const waypoints = [];
 
-  return [
-    {
-      pointA: pointAStart,
-      pointB: pointBStart,
-      distance: closestStart
-    },
-    {
-      pointA: pointALast,
-      pointB: pointBLast,
-      distance: closestLast
+  for (let i = 0; i < numWaypoints; i++) {
+    const indexA = i * stepSize;
+    const indexB = i * stepSize;
+
+    const pointA = polylineA[indexA];
+    const pointB = polylineB[indexB];
+    if (pointB === undefined || pointA === undefined) {
+      console.log('point is undefined');
+      console.log(pointB);
+      console.log(pointA);
+    } else {
+      const distance = calculateDistance(pointA, pointB);
+
+      waypoints.push({
+        pointA,
+        pointB,
+        distance
+      });
     }
-  ];
+  }
+
+  waypoints.sort((a, b) => a.distance - b.distance);
+
+  const selectedWaypoints = waypoints.slice(0, numWaypoints);
+
+  return selectedWaypoints;
 }
+
+// function findWaypoints(itineraryA, itineraryB) {
+//   const pointAStart = itineraryA[0];
+//   const pointBStart = itineraryB[0];
+//   const pointALast = itineraryA[itineraryA.length - 1];
+//   const pointBLast = itineraryB[itineraryB.length - 1];
+
+//   const closestStart = calculateDistance(pointAStart, pointBStart);
+//   const closestLast = calculateDistance(pointALast, pointBLast);
+
+//   return [
+//     {
+//       pointA: pointAStart,
+//       pointB: pointBStart,
+//       distance: closestStart
+//     },
+//     {
+//       pointA: pointALast,
+//       pointB: pointBLast,
+//       distance: closestLast
+//     }
+//   ];
+// }
 
 module.exports = { findWaypoints, calculateDistance };
