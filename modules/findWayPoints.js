@@ -1,8 +1,6 @@
 function calculateDistance(pointA, pointB) {
     const earthRadius = 6371; // Radius of the Earth in kilometers
   
-    console.log(pointA, pointB);
-
     const { latitude: lat1, longitude: lon1 } = pointA;
     const { latitude: lat2, longitude: lon2 } = pointB;
   
