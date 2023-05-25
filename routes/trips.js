@@ -139,8 +139,8 @@ router.post('/sharedtrip', function (req, res, next) {
 
     const waypoints = req.body.waypoints || []; // Array of waypoints
 
-    const origin = `${currentPosition.latitude},${currentPosition.longitude}`;
-    const destination = `${address.latitude},${address.longitude}`;
+    const origin = `${from.latitude},${from.longitude}`;
+    const destination = `${to.latitude},${to.longitude}`;
 
     const waypointsString = waypoints.map(waypoint => `${waypoint.latitude},${waypoint.longitude}`).join('|');
 
